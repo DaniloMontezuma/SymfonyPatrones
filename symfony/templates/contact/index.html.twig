@@ -1,0 +1,9 @@
+{# templates/contact/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contact Us</h1>
+    {{ form_start(form) }}
+        {{ form_widget(form) }} {# Esto renderiza todos los campos, incluido el botón de envío #}
+    {{ form_end(form) }}
+{% endblock %}
