@@ -1,0 +1,12 @@
+Debe iniciar el sistema con:
+
+php -S localhost:8000 -t public/
+
+
+y se localiza en localhost:8000/contact
+
+El patrón Decorator permite agregar funcionalidad adicional a un objeto de manera flexible, sin alterar su estructura original. En el contexto de la aplicación que usé, Symfony, lo que se ha implementado es que el cuerpo del correo electrónico se puede modificar al agregar encabezados y se intentaron agregar pies de página de manera independiente, lo que mejoraría la presentación del mensaje enviado sin modificar la lógica de cómo se crea el mensaje básico.
+
+No pude hacerlo funcionar para que el Mailer pueda enviar correctamente los correos, intenté hacerlo usando un nuevo framework pero no pude aprender lo suficiente.
+
+Se uso Symfony en su versión más actualizada, junto con el require de forms, mailer y google mailer. Se trató de hacer con base de datos POSTGRESQL, pero no pude
