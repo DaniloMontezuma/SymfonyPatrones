@@ -1,0 +1,97 @@
+/* styles/contact.css */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f6f6f6;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    color: #202124;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#email-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#email-container input[type="email"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#add-email {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#add-email:hover {
+    background-color: #1669c1;
+}
+
+input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+button[type="submit"] {
+    padding: 10px 15px;
+    background-color: #34a853;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #2c8d43;
+}
+
+input:focus, textarea:focus {
+    border-color: #1a73e8;
+    outline: none;
+}
+
+::placeholder {
+    color: #a0a0a0;
+    opacity: 1;
+}
+
+input:invalid {
+    border-color: #d93025;
+}
+
+input:valid {
+    border-color: #34a853;
+}
+
+#additional-emails input[type="email"] {
+    margin-bottom: 10px;
+}
+
+#additional-emails {
+    margin-top: 15px;
+}

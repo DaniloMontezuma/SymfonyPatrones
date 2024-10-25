@@ -1,9 +1,49 @@
 {# templates/contact/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/contact.css') }}">
+{% endblock %}
+
 {% block body %}
     <h1>Contact Us</h1>
-    {{ form_start(form) }}
-        {{ form_widget(form) }} {# Esto renderiza todos los campos, incluido el botón de envío #}
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        {{ form_row(form.name) }}
+        
+        <div id="email-container">
+            {{ form_row(form.email) }}
+            <button type="button" id="add-email" class="btn btn-secondary">+</button>
+        </div>
+        
+        <div id="additional-emails"></div>
+        
+        {{ form_row(form.message) }}
+        {{ form_row(form.attachment) }} {}
+        
+        {{ form_row(form.submit) }}
     {{ form_end(form) }}
+
+    <script>
+        document.getElementById('add-email').addEventListener('click', function() {
+            const container = document.getElementById('additional-emails');
+            const newEmailInput = document.createElement('input');
+
+            // Configura el nuevo campo de correo
+            newEmailInput.setAttribute('type', 'email');
+            newEmailInput.setAttribute('name', 'additionalEmails[]'); // Nombre como array
+            newEmailInput.setAttribute('placeholder', 'Additional Email @gmail.com');
+            newEmailInput.setAttribute('class', 'form-control mb-2'); // Estilo
+            newEmailInput.setAttribute('required', 'required'); // Campo requerido
+
+            newEmailInput.addEventListener('input', function () {
+                if (newEmailInput.value && !newEmailInput.value.endsWith('@gmail.com')) {
+                    newEmailInput.setCustomValidity('Please enter a valid Gmail address.'); 
+                } else {
+                    newEmailInput.setCustomValidity(''); 
+                }
+            });
+
+            container.appendChild(newEmailInput); 
+        });
+    </script>
 {% endblock %}

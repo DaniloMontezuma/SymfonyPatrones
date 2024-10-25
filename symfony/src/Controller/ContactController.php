@@ -8,6 +8,9 @@ use App\Form\ContactType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
+use App\Decorator\HeaderDecorator;
+use App\Decorator\EmailFooterDecorator; // Actualiza aquí
 
 class ContactController extends AbstractController
 {
@@ -18,20 +21,39 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData(); // Obtener los datos del formulario
+            $data = $form->getData();
+            $message = '<p>Name: ' . htmlspecialchars($data['name']) . '</p>' .
+                       '<p>Email: ' . htmlspecialchars($data['email']) . '</p>' .
+                       '<p>Additional Emails: ' . htmlspecialchars($data['additionalEmails']) . '</p>' .
+                       '<p>Message: ' . nl2br(htmlspecialchars($data['message'])) . '</p>';
+
+            // Aplicar los decoradores
+            $header = new HeaderDecorator($message);
+            $footer = new EmailFooterDecorator($header->getContent()); // Actualiza aquí
 
             $email = (new Email())
                 ->from('pruebasymfonydan@gmail.com')
                 ->to('pruebasymfonydan@gmail.com')
                 ->subject('Contact')
-                ->html('<p>Name: ' . htmlspecialchars($data['name']) . '</p>' .
-                       '<p>Email: ' . htmlspecialchars($data['email']) . '</p>' .
-                       '<p>Message: ' . nl2br(htmlspecialchars($data['message'])) . '</p>');
+                ->html($footer->getContent());
+
+            // Agregar direcciones de correo adicionales
+            $additionalEmails = array_filter(array_map('trim', explode(',', $data['additionalEmails'])));
+            foreach ($additionalEmails as $additionalEmail) {
+                if (preg_match('/@gmail\.com$/', $additionalEmail)) {
+                    $email->addTo($additionalEmail);
+                }
+            }
+
+            // Manejar el archivo adjunto
+            if ($data['attachment']) {
+                $attachment = DataPart::fromPath($data['attachment']->getPathname());
+                $email->attach($attachment);
+            }
 
             $mailer->send($email);
 
-            // Aquí podrías redirigir o mostrar un mensaje de éxito
-            return $this->redirectToRoute('app_contact'); // Redirigir o mostrar un mensaje de éxito
+            return $this->redirectToRoute('app_contact'); 
         }
 
         return $this->render('contact/index.html.twig', [
